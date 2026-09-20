@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#10233f">
-  <title>Plataforma de Revisão Escolar</title>
+  <title>Portal Revisa</title>
   <style>
     :root{
       --navy:#10233f;--navy-2:#17375f;--blue:#2563eb;--cyan:#0e9f9a;--accent:#b8e636;--accent-dark:#57760b;
@@ -14,13 +14,13 @@
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth;scroll-padding-top:calc(var(--top-offset) + 14px)}
-    body{margin:0;background:var(--canvas);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{margin:0;background:var(--canvas);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background .22s ease}body.entry-mode{background:linear-gradient(135deg,#102f55 0%,#1c4d82 100%);color:#fff}
     body.modal-open{overflow:hidden}
     button{font:inherit}button:not(:disabled){cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}
     .topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);box-shadow:0 8px 24px rgba(16,35,63,.06);backdrop-filter:blur(14px)}
     .topbar-row{min-height:64px;padding:0 clamp(14px,3vw,42px);display:flex;align-items:center;gap:18px}
     .brand-button{border:0;background:transparent;padding:0;display:flex;align-items:center;color:var(--navy);min-width:max-content;text-align:left}
-    .brand-copy strong{display:block;font-size:.94rem;line-height:1.05}.brand-copy small{display:block;color:var(--muted);font-size:.72rem;margin-top:4px}
+    .brand-copy strong{display:block;font-size:.98rem;line-height:1.05;letter-spacing:-.025em}.brand-copy strong span{color:var(--accent-dark)}.brand-copy small{display:block;color:var(--muted);font-size:.72rem;margin-top:4px}
     .home-nav{border:0;background:transparent;color:var(--muted);font-weight:850;font-size:.8rem;padding:10px 11px;border-radius:10px;white-space:nowrap}.home-nav:hover{background:var(--soft-blue);color:var(--navy)}
     .grade-tabs{display:flex;align-items:stretch;gap:4px;min-width:0;overflow-x:auto;scrollbar-width:none;margin-left:8px}.grade-tabs::-webkit-scrollbar{display:none}
     .grade-tab{border:0;background:transparent;color:var(--muted);font-weight:850;font-size:.82rem;padding:12px 13px;border-radius:12px;white-space:nowrap;position:relative}
@@ -28,11 +28,11 @@
     .top-progress{margin-left:auto;display:grid;grid-template-columns:auto 92px auto;align-items:center;gap:8px;color:var(--muted);font-size:.75rem;font-weight:850;min-width:max-content}
     .track{height:7px;background:#e7ebf0;border-radius:999px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:.3s}
     .top-progress strong{color:var(--blue);min-width:32px;text-align:right}.pdf-button{border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 13px;border-radius:11px;font-weight:900;white-space:nowrap}
-    .topbar.home-mode .home-nav,.topbar.home-mode .grade-tabs,.topbar.home-mode .top-progress,.topbar.home-mode .pdf-button{display:none}.topbar.home-mode .topbar-row{justify-content:flex-start}.topbar.assessment-mode .top-progress,.topbar.assessment-mode .pdf-button{display:none}
-    .landing,.assessment{width:min(100% - 30px,1180px);min-height:calc(100vh - 64px);margin:0 auto;padding:clamp(42px,8vw,92px) 0 70px;display:grid;align-content:center}.landing[hidden],.assessment[hidden],.page[hidden]{display:none}
-    .landing-intro{max-width:760px}.landing-intro .eyebrow{color:var(--blue)}.landing h1{font-size:clamp(2.7rem,7vw,5.7rem);line-height:.94;letter-spacing:-.065em;color:var(--navy);margin:12px 0 20px;text-wrap:balance}.landing-lead{font-size:clamp(1rem,2vw,1.2rem);line-height:1.65;color:var(--muted);margin:0;max-width:680px}
-    .class-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:42px}.class-card{--card-accent:#b8e636;border:0;border-top:6px solid var(--card-accent);background:#fff;color:var(--navy);min-height:150px;padding:25px 22px;text-align:left;display:flex;flex-direction:column;justify-content:center;box-shadow:0 9px 28px rgba(16,35,63,.07);transition:transform .18s ease,box-shadow .18s ease}.class-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(16,35,63,.12)}.class-card strong{font-size:clamp(1.35rem,2.4vw,1.85rem);line-height:1.08;letter-spacing:-.035em;text-wrap:balance;overflow-wrap:anywhere}.class-card span{font-size:.76rem;font-weight:900;color:var(--muted);margin-top:8px}
-    .assessment-head{max-width:760px}.assessment-head .eyebrow{color:var(--accent-dark)}.assessment h1{font-size:clamp(2.45rem,6vw,4.8rem);line-height:.98;letter-spacing:-.055em;color:var(--navy);margin:12px 0 16px;text-wrap:balance}.assessment-lead{color:var(--muted);font-size:1.05rem;line-height:1.6;margin:0}.assessment-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:38px;max-width:900px}.assessment-option{border:0;border-top:6px solid var(--accent);background:#fff;color:var(--navy);min-height:230px;padding:28px 26px;text-align:left;display:flex;flex-direction:column;box-shadow:0 9px 28px rgba(16,35,63,.07);transition:transform .18s ease,box-shadow .18s ease}.assessment-option:not(:disabled):hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(16,35,63,.12)}.assessment-option strong{font-size:clamp(1.35rem,2.7vw,2rem);line-height:1.12;letter-spacing:-.035em;text-wrap:balance}.assessment-option p{color:var(--muted);line-height:1.5;margin:14px 0 0}.assessment-meta{display:flex;gap:8px 18px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--line);color:#526078;font-size:.8rem;font-weight:800}.assessment-option .availability{margin-top:auto;padding-top:18px;color:var(--accent-dark);font-size:.78rem;font-weight:950;text-transform:uppercase;letter-spacing:.08em}.assessment-option.upcoming{border-top-color:#cbd2dc;background:#f8f9fb}.assessment-option.upcoming .availability{color:#7b8493}.assessment-option:disabled{opacity:1;cursor:not-allowed}
+    .topbar.home-mode .home-nav,.topbar.home-mode .grade-tabs,.topbar.home-mode .top-progress,.topbar.home-mode .pdf-button{display:none}.topbar.home-mode .topbar-row{justify-content:flex-start}.topbar.assessment-mode .top-progress,.topbar.assessment-mode .pdf-button{display:none}body.entry-mode .topbar{background:rgba(16,47,85,.97);border-bottom-color:rgba(255,255,255,.12);box-shadow:none}body.entry-mode .brand-button{color:#fff}body.entry-mode .brand-copy strong span{color:#c9ff22}body.entry-mode .brand-copy small{color:#c2cfdf}body.entry-mode .home-nav,body.entry-mode .grade-tab{color:#d9e4f2}body.entry-mode .home-nav:hover,body.entry-mode .grade-tab:hover{background:rgba(255,255,255,.09);color:#fff}body.entry-mode .grade-tab.active{color:var(--navy);background:var(--accent)}
+    .landing,.assessment{width:min(100% - 30px,1240px);min-height:calc(100vh - 64px);margin:0 auto;padding:clamp(34px,6vw,72px) 0 30px;display:grid;align-content:center}.landing[hidden],.assessment[hidden],.page[hidden]{display:none}
+    .landing-layout,.assessment-layout{display:grid;grid-template-columns:minmax(0,.92fr) minmax(500px,1.08fr);gap:clamp(34px,5vw,70px);align-items:center;position:relative;isolation:isolate;overflow:hidden;background:transparent;color:#fff;padding:clamp(30px,4.5vw,52px)}.landing-layout:before,.assessment-layout:before,.landing-layout:after,.assessment-layout:after{content:"";position:absolute;z-index:-1;border:1px solid rgba(255,255,255,.12);border-radius:50%;pointer-events:none}.landing-layout:before,.assessment-layout:before{width:390px;height:390px;right:-170px;top:-250px}.landing-layout:after,.assessment-layout:after{width:270px;height:270px;right:115px;bottom:-220px}.landing-intro{max-width:540px}.landing-intro .eyebrow{color:#c9ff22}.landing h1{font-size:clamp(2.55rem,3.5vw,3rem);line-height:.98;letter-spacing:-.055em;color:#fff;margin:13px 0 17px;text-wrap:balance}.landing-lead{font-size:1rem;line-height:1.62;color:#e0e9f5;margin:0;max-width:520px}.school-note{max-width:520px;margin:24px 0 0;padding:2px 0 2px 16px;border-left:3px solid #c9ff22;color:#bfcde0;font-size:.82rem;line-height:1.58}
+    .class-area{min-width:0;border-left:1px solid rgba(255,255,255,.22);padding-left:clamp(28px,4vw,48px)}.class-area-head{display:flex;align-items:end;gap:18px;margin:0 2px 16px}.class-area-head strong{color:#fff;font-size:1.04rem}.class-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.class-card{--card-accent:#b8e636;border:1px solid rgba(255,255,255,.16);border-left:4px solid var(--card-accent);border-radius:15px;background:rgba(255,255,255,.075);color:#fff;min-height:112px;padding:19px 18px;text-align:left;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;transition:transform .18s ease,background .18s ease,border-color .18s ease}.class-card:before{content:"";position:absolute;width:120px;height:120px;border:1px solid rgba(255,255,255,.08);border-radius:50%;right:-74px;top:-72px}.class-card:after{content:"→";position:absolute;right:16px;bottom:15px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.13);color:#fff;font-size:.9rem;font-weight:900}.class-card:hover{transform:translateY(-3px);background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3);border-left-color:var(--card-accent)}.class-card strong{max-width:calc(100% - 34px);font-size:clamp(1.25rem,2vw,1.65rem);line-height:1.08;letter-spacing:-.03em;text-wrap:balance;overflow-wrap:anywhere}.class-card span{font-size:.74rem;font-weight:850;color:#c7d5e6;margin-top:7px}
+    .assessment-layout{grid-template-columns:minmax(270px,.72fr) minmax(520px,1.28fr)}.assessment-head{max-width:430px}.assessment-head .eyebrow{color:var(--accent)}.assessment h1{font-size:clamp(2.55rem,3.5vw,3rem);line-height:.98;letter-spacing:-.055em;color:#fff;margin:13px 0 17px;text-wrap:balance}.assessment-lead{color:#d9e4f2;font-size:1rem;line-height:1.62;margin:0;max-width:390px}.assessment-options{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:13px;border-left:1px solid rgba(255,255,255,.22);padding-left:clamp(28px,4vw,48px)}.assessment-option{border:1px solid rgba(255,255,255,.16);border-top:4px solid var(--accent);border-radius:17px;background:rgba(255,255,255,.08);color:#fff;min-height:250px;padding:24px 22px;text-align:left;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:transform .18s ease,background .18s ease,border-color .18s ease}.assessment-option:before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-82px;top:-90px;border:1px solid rgba(255,255,255,.1)}.assessment-option:not(:disabled):hover{transform:translateY(-3px);background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);border-top-color:var(--accent)}.assessment-option strong{position:relative;font-size:clamp(1.35rem,2.2vw,1.82rem);line-height:1.1;letter-spacing:-.035em;text-wrap:balance}.assessment-option p{position:relative;color:#cedaea;line-height:1.5;margin:14px 0 0;font-size:.9rem}.assessment-meta{position:relative;display:grid;gap:7px;margin-top:17px;padding-top:14px;border-top:1px solid rgba(255,255,255,.16);color:#e1e9f4;font-size:.77rem;font-weight:800}.assessment-option .availability{position:relative;margin-top:auto;padding-top:17px;color:var(--accent);font-size:.72rem;font-weight:950;text-transform:uppercase;letter-spacing:.1em}.assessment-option.upcoming{border-top-color:#8fa2b9;background:rgba(255,255,255,.035);color:#d0d9e5}.assessment-option.upcoming:before{border-color:rgba(255,255,255,.07)}.assessment-option.upcoming .availability{color:#aab8c9}.assessment-option:disabled{opacity:1;cursor:not-allowed}.screen-footer{position:relative;padding:24px 0 0;text-align:left;color:#7b8493;font-size:.75rem;font-weight:700}
     .page{width:min(100% - 30px,1240px);margin:0 auto;padding:28px 0 64px}
     .hero{background:linear-gradient(135deg,var(--navy),#15447a);color:#fff;border-radius:28px;padding:clamp(26px,5vw,48px);position:relative;overflow:hidden;box-shadow:var(--shadow)}
     .hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.12);border-radius:50%;pointer-events:none}.hero:before{width:390px;height:390px;right:-160px;top:-210px}.hero:after{width:260px;height:260px;right:120px;bottom:-210px}
@@ -59,18 +59,18 @@
     .topic-content table{width:100%;border-collapse:collapse;margin:18px 0;display:block;overflow-x:auto;border:1px solid var(--line);border-radius:13px}.topic-content thead,.topic-content tbody{display:table;width:100%;min-width:620px;table-layout:auto}.topic-content th,.topic-content td{padding:11px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:left;vertical-align:top}.topic-content th{background:#eef4fb;color:var(--navy)}.topic-content tr:last-child td{border-bottom:0}.topic-content th:last-child,.topic-content td:last-child{border-right:0}
     .content-figure{margin:22px 0;text-align:center}.figure-button{border:1px solid var(--line);border-radius:18px;background:#fff;padding:9px;width:100%;box-shadow:0 8px 22px rgba(16,35,63,.06)}.figure-button img,.content-figure img{display:block;width:100%;height:auto;max-height:680px;object-fit:contain;border-radius:12px}.figure-caption,.content-figure figcaption{color:var(--muted);font-size:.82rem;line-height:1.5;margin-top:9px}
     .exam-question,.worked-body,.resolution-panel,.punnett-dihybrid-block{border:1px solid var(--line);border-radius:16px;padding:17px;margin:18px 0;background:#fff}.exam-question__header,.resolution-title{font-weight:900;color:var(--navy);margin-bottom:10px}.option-list{display:grid;gap:8px;margin:12px 0}.option-item{display:flex;gap:9px;align-items:flex-start}.option-letter,.label{font-weight:900;color:var(--blue)}.checklist{list-style:none;padding:0!important}.checklist li{padding-left:24px;position:relative}.checklist li:before{content:"✓";position:absolute;left:0;color:var(--success);font-weight:950}.punnett-scroll{overflow-x:auto}.genetic-key{font-weight:800}.answer-highlight{background:#eaf9f1;border-radius:9px;padding:2px 6px}
-    .summary-grid{display:block}.summary-card{padding:21px 0;background:#fff}.summary-card:not(:last-child){border-bottom:1px solid var(--line)}.summary-card h3{margin:0 0 10px;color:var(--navy);font-size:1.08rem}.summary-card ul{margin:0;padding-left:21px;color:#445168;line-height:1.65}.summary-card li{margin:6px 0}.summary-cta{display:flex;justify-content:flex-start;margin-top:20px}
+    .summary-grid{display:block}.summary-card{padding:21px 0;background:#fff}.summary-card:not(:last-child){border-bottom:1px solid var(--line)}.summary-card h3{margin:0 0 10px;color:var(--navy);font-size:1.08rem}.summary-card ul{margin:0;padding-left:21px;color:#445168;line-height:1.65}.summary-card li{margin:6px 0}
     .button{border:0;border-radius:13px;padding:12px 17px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;gap:8px}.button.primary{background:var(--navy);color:#fff}.button.primary:hover{background:var(--navy-2)}.button.subtle{background:#fff;color:var(--ink);border:1px solid var(--line)}
     .practice-shell{max-width:920px;margin:0 auto;background:#fff;padding:clamp(20px,4vw,34px)}
     .practice-meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:.82rem;font-weight:850;margin-bottom:14px}.flashcard{min-height:330px;border:0;width:100%;border-radius:22px;background:linear-gradient(145deg,var(--navy),var(--navy-2));color:#fff;padding:48px 34px 34px;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden}.flashcard:before{content:"";position:absolute;width:250px;height:250px;border:1px solid rgba(255,255,255,.1);border-radius:50%;right:-90px;top:-100px}.flashcard.answer-side{background:linear-gradient(145deg,#0b6968,#0e8e86)}.flash-label{position:absolute;left:19px;top:17px;color:var(--accent);font-size:.7rem;font-weight:950;letter-spacing:.14em}.flash-text{position:relative;font-size:clamp(1.32rem,3.2vw,2.1rem);font-weight:850;line-height:1.38;max-width:760px}.answer-side .flash-text{font-size:clamp(1.12rem,2.5vw,1.58rem);font-weight:650}.practice-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:17px}
     .quiz-welcome,.quiz-result{text-align:center;padding:24px 8px}.quiz-symbol{width:82px;height:82px;border-radius:25px;background:#eff7d2;background:color-mix(in srgb,var(--accent) 42%,white);display:grid;place-items:center;color:var(--navy);font-weight:950;font-size:1.8rem;margin:0 auto 18px}.quiz-welcome h3,.quiz-result h3{font-size:1.65rem;margin:0 0 8px}.quiz-welcome p,.quiz-result p{color:var(--muted);line-height:1.6;max-width:600px;margin:0 auto 20px}.quiz-live,.quiz-result{display:none}.quiz-live.active,.quiz-result.active{display:block}.quiz-track{height:8px;background:#e9edf2;border-radius:999px;overflow:hidden}.quiz-track div{height:100%;background:var(--blue);transition:.3s}.question{font-size:clamp(1.18rem,2.4vw,1.55rem);font-weight:880;line-height:1.46;margin:23px 0 17px}.answers{display:grid;gap:9px}.answer{border:1px solid var(--line);border-radius:14px;background:#fff;text-align:left;padding:14px 16px;color:var(--ink);font-weight:680;line-height:1.45}.answer:hover{border-color:#9db2cc;background:#f8fbff}.answer.selected{border:2px solid var(--blue);background:var(--soft-blue)}.answer.correct{border-color:#22a064;background:#eaf9f1}.answer.wrong{border-color:var(--danger);background:#fff0f2}.feedback{display:none;border-radius:14px;padding:15px 17px;margin-top:13px;line-height:1.55}.feedback.show{display:block}.feedback.correct{background:#eaf9f1;border:1px solid #9cddbd}.feedback.wrong{background:#fff0f2;border:1px solid #f1b1ba}.quiz-actions{display:flex;justify-content:space-between;gap:9px;margin-top:17px}.score{font-size:4rem;font-weight:950;letter-spacing:-.06em;color:var(--blue);margin:8px 0}
-    footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 14px 5px}
+    footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 14px 5px}.screen-footer{text-align:left;padding:34px 0 0}body.entry-mode .screen-footer{color:#bdcada}
     .image-modal{position:fixed;inset:0;z-index:200;background:rgba(8,18,33,.88);display:none;align-items:center;justify-content:center;padding:24px}.image-modal.open{display:flex}.image-modal img{max-width:min(1200px,94vw);max-height:86vh;object-fit:contain;background:#fff;border-radius:14px}.modal-close{position:absolute;right:18px;top:18px;border:0;background:#fff;color:var(--navy);width:42px;height:42px;border-radius:50%;font-size:1.35rem;font-weight:900}
-    @media(max-width:1050px){.route-grid{grid-template-columns:repeat(2,1fr)}.route-card:nth-child(2){border-right:0}.route-card:nth-child(-n+2){border-bottom:1px solid var(--line)}.brand-copy small{display:none}.class-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.class-card{min-height:140px}}
-    @media(max-width:900px){:root{--top-offset:108px}.topbar-row{min-height:108px;flex-wrap:wrap;align-content:center;gap:7px 11px;padding:7px 13px}.brand-button{height:43px}.grade-tabs{order:5;width:100%;margin:0;height:43px}.grade-tab{flex:1;padding:8px 12px}.top-progress{margin-left:auto}.pdf-button{padding:9px 11px}.page{width:min(100% - 20px,1240px);padding-top:18px}.hero-grid{grid-template-columns:1fr}.review-box{border-left:0;border-top:1px solid rgba(255,255,255,.22);padding:20px 0 0;margin-top:2px}}
-    @media(max-width:620px){:root{--top-offset:101px}.topbar-row{min-height:101px;padding:5px 9px}.brand-copy strong{font-size:.86rem}.brand-copy small{display:none}.home-nav{font-size:.74rem;padding:8px 6px}.grade-tabs{height:41px}.grade-tab{font-size:.74rem;padding:7px 9px}.top-progress{grid-template-columns:54px auto}.top-progress>span:first-child{display:none}.track{width:54px}.pdf-button{font-size:.72rem;padding:8px 9px}.landing,.assessment{width:min(100% - 20px,1180px);min-height:calc(100vh - 64px);padding:34px 0 46px}.landing h1,.assessment h1{font-size:3rem}.class-grid{grid-template-columns:1fr 1fr;gap:10px;margin-top:30px}.class-card{min-height:120px;padding:19px 16px}.class-card strong{font-size:1.28rem}.assessment-options{grid-template-columns:1fr;gap:11px;margin-top:28px}.assessment-option{min-height:190px;padding:21px 19px}.assessment-option strong{font-size:1.45rem}.page{width:min(100% - 14px,1240px);padding-top:10px}.hero{padding:26px 20px;border-radius:18px}.hero h1{font-size:2.45rem}.sticky-heading{padding:11px 14px;min-height:52px;margin-bottom:11px}.section-body{padding:18px 15px}.route-grid{grid-template-columns:1fr}.route-card{padding:15px 3px}.route-card:not(:last-child){border-right:0;border-bottom:1px solid var(--line)}.reader{padding:0 12px}.chapter-section{padding-top:17px}.chapter-body{padding:0 3px 21px}.topic-content{font-size:.97rem;line-height:1.7}.practice-shell{padding:16px 4px}.flashcard{min-height:285px;padding:46px 20px 28px}.quiz-actions .button{flex:1}.secretion-grid,.dihybrid-results{grid-template-columns:1fr}}
+    @media(max-width:1050px){.route-grid{grid-template-columns:repeat(2,1fr)}.route-card:nth-child(2){border-right:0}.route-card:nth-child(-n+2){border-bottom:1px solid var(--line)}.brand-copy small{display:none}.class-card{min-height:155px}}
+    @media(max-width:900px){:root{--top-offset:108px}.topbar-row{min-height:108px;flex-wrap:wrap;align-content:center;gap:7px 11px;padding:7px 13px}.brand-button{height:43px}.grade-tabs{order:5;width:100%;margin:0;height:43px}.grade-tab{flex:1;padding:8px 12px}.top-progress{margin-left:auto}.pdf-button{padding:9px 11px}.landing-layout,.assessment-layout{grid-template-columns:1fr;gap:32px}.landing-intro,.assessment-head{max-width:650px}.school-note{max-width:650px}.class-area,.assessment-options{border-left:0;border-top:1px solid rgba(255,255,255,.22);padding-left:0;padding-top:28px}.assessment-options{max-width:none}.page{width:min(100% - 20px,1240px);padding-top:18px}.hero-grid{grid-template-columns:1fr}.review-box{border-left:0;border-top:1px solid rgba(255,255,255,.22);padding:20px 0 0;margin-top:2px}}
+    @media(max-width:620px){:root{--top-offset:101px}.topbar-row{min-height:101px;padding:5px 9px}.brand-copy strong{font-size:.88rem}.brand-copy small{display:none}.home-nav{font-size:.74rem;padding:8px 6px}.grade-tabs{height:41px}.grade-tab{font-size:.74rem;padding:7px 9px}.top-progress{grid-template-columns:54px auto}.top-progress>span:first-child{display:none}.track{width:54px}.pdf-button{font-size:.72rem;padding:8px 9px}.landing,.assessment{width:min(100% - 20px,1180px);min-height:calc(100vh - 64px);padding:24px 0 24px}.landing-layout,.assessment-layout{gap:26px;padding:27px 21px;border-radius:21px}.landing h1,.assessment h1{font-size:2.75rem}.school-note{margin-top:21px}.class-area,.assessment-options{padding-top:23px}.class-area-head{align-items:start}.class-grid{grid-template-columns:1fr 1fr;gap:9px}.class-card{min-height:106px;padding:16px 13px;border-radius:14px}.class-card:after{right:12px;bottom:13px;width:26px;height:26px}.class-card strong{font-size:1.16rem;max-width:calc(100% - 30px)}.assessment-options{grid-template-columns:1fr;gap:10px}.assessment-option{min-height:205px;padding:21px 18px;border-radius:15px}.assessment-option strong{font-size:1.48rem}.screen-footer{padding-top:22px}.page{width:min(100% - 14px,1240px);padding-top:10px}.hero{padding:26px 20px;border-radius:18px}.hero h1{font-size:2.45rem}.sticky-heading{padding:11px 14px;min-height:52px;margin-bottom:11px}.section-body{padding:18px 15px}.route-grid{grid-template-columns:1fr}.route-card{padding:15px 3px}.route-card:not(:last-child){border-right:0;border-bottom:1px solid var(--line)}.reader{padding:0 12px}.chapter-section{padding-top:17px}.chapter-body{padding:0 3px 21px}.topic-content{font-size:.97rem;line-height:1.7}.practice-shell{padding:16px 4px}.flashcard{min-height:285px;padding:46px 20px 28px}.quiz-actions .button{flex:1}.secretion-grid,.dihybrid-results{grid-template-columns:1fr}}
     @media(max-width:390px){.class-grid{grid-template-columns:1fr}.class-card{min-height:105px}}
-    @media(orientation:landscape) and (max-height:620px) and (min-width:700px){:root{--top-offset:54px}.topbar-row{min-height:54px;flex-wrap:nowrap;padding:0 12px;gap:9px}.brand-copy{display:none}.grade-tabs{order:initial;width:auto;height:auto;margin-left:0}.grade-tab{padding:9px 11px}.top-progress{grid-template-columns:68px auto}.top-progress>span:first-child{display:none}.track{width:68px}.pdf-button{padding:8px 10px}.landing,.assessment{min-height:calc(100vh - 54px);padding:25px 0}.landing h1,.assessment h1{font-size:3.1rem;margin-bottom:12px}.landing-lead,.assessment-lead{font-size:.95rem}.class-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:24px}.class-card{min-height:105px;padding:18px}.class-card strong{font-size:1.35rem}.assessment-options{margin-top:23px}.assessment-option{min-height:180px;padding:20px}.page{padding-top:13px}.hero{padding:28px 34px}.hero-grid{grid-template-columns:1.15fr .85fr;gap:25px}.hero h1{font-size:2.8rem}.review-box{border-top:0;border-left:1px solid rgba(255,255,255,.22);padding:5px 0 5px 24px;margin:0}.sticky-heading{min-height:48px;padding:9px 15px}.flashcard{min-height:250px}}
+    @media(orientation:landscape) and (max-height:620px) and (min-width:700px){:root{--top-offset:54px}.topbar-row{min-height:54px;flex-wrap:nowrap;padding:0 12px;gap:9px}.brand-copy{display:none}.grade-tabs{order:initial;width:auto;height:auto;margin-left:0}.grade-tab{padding:9px 11px}.top-progress{grid-template-columns:68px auto}.top-progress>span:first-child{display:none}.track{width:68px}.pdf-button{padding:8px 10px}.landing,.assessment{min-height:calc(100vh - 54px);padding:16px 0 12px}.landing-layout,.assessment-layout{grid-template-columns:minmax(0,.82fr) minmax(460px,1.18fr);gap:32px;padding:26px 30px}.landing h1,.assessment h1{font-size:2.85rem;margin-bottom:13px}.landing-lead,.assessment-lead{font-size:.9rem}.school-note{margin-top:16px;font-size:.76rem}.class-area,.assessment-options{border-top:0;border-left:1px solid rgba(255,255,255,.22);padding-top:0;padding-left:30px}.class-area-head{margin-bottom:9px}.class-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.class-card{min-height:96px;padding:14px 16px}.class-card strong{font-size:1.23rem}.assessment-options{grid-template-columns:1.06fr .94fr;gap:10px}.assessment-option{min-height:215px;padding:18px}.screen-footer{display:none}.page{padding-top:13px}.hero{padding:28px 34px}.hero-grid{grid-template-columns:1.15fr .85fr;gap:25px}.hero h1{font-size:2.8rem}.review-box{border-top:0;border-left:1px solid rgba(255,255,255,.22);padding:5px 0 5px 24px;margin:0}.sticky-heading{min-height:48px;padding:9px 15px}.flashcard{min-height:250px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
   </style>
 </head>
@@ -78,7 +78,7 @@
   <header class="topbar home-mode" id="topbar">
     <div class="topbar-row">
       <button class="brand-button" id="homeButton" aria-label="Voltar à seleção de turmas">
-        <span class="brand-copy"><strong>Plataforma de revisão</strong><small id="brandSubtitle">Ciências e Biologia</small></span>
+        <span class="brand-copy"><strong>Portal <span>Revisa</span></strong><small id="brandSubtitle">Ciências e Biologia</small></span>
       </button>
       <button class="home-nav" id="homeNavButton">← Início</button>
       <nav class="grade-tabs" aria-label="Escolha a turma">
@@ -93,27 +93,32 @@
   </header>
 
   <main class="landing" id="landingPage">
-    <section>
+    <section class="landing-layout">
       <div class="landing-intro">
-        <div class="eyebrow">Revisão escolar</div>
-        <h1>Escolha sua turma</h1>
-        <p class="landing-lead">Acesse o conteúdo teórico, a síntese, os flashcards e o quiz de desempenho da sua série.</p>
+        <div class="eyebrow">Seu espaço de revisão</div>
+        <h1>Portal Revisa</h1>
+        <p class="landing-lead">Uma experiência de estudo clara, direta e preparada para acompanhar você em cada etapa da revisão.</p>
+        <p class="school-note">Conteúdo criado pelo Prof. Job Inácio para as turmas de Ciências e Biologia da Escola FIRJAN SESI Duque de Caxias.</p>
       </div>
-      <div class="class-grid" aria-label="Turmas disponíveis">
-        <button class="class-card" style="--card-accent:#b8e636" data-grade-entry="6"><strong>6º ano</strong><span>Ciências</span></button>
-        <button class="class-card" style="--card-accent:#5eead4" data-grade-entry="7"><strong>7º ano</strong><span>Ciências</span></button>
-        <button class="class-card" style="--card-accent:#fbad7f" data-grade-entry="8"><strong>8º ano</strong><span>Ciências</span></button>
-        <button class="class-card" style="--card-accent:#c4b5fd" data-grade-entry="3em"><strong>3ª série EM</strong><span>Biologia</span></button>
+      <div class="class-area">
+        <div class="class-area-head"><strong>Escolha sua turma</strong></div>
+        <div class="class-grid" aria-label="Turmas disponíveis">
+          <button class="class-card" style="--card-accent:#b8e636" data-grade-entry="6"><strong>6º ano</strong><span>Ciências</span></button>
+          <button class="class-card" style="--card-accent:#5eead4" data-grade-entry="7"><strong>7º ano</strong><span>Ciências</span></button>
+          <button class="class-card" style="--card-accent:#fbad7f" data-grade-entry="8"><strong>8º ano</strong><span>Ciências</span></button>
+          <button class="class-card" style="--card-accent:#c4b5fd" data-grade-entry="3em"><strong>3ª série EM</strong><span>Biologia</span></button>
+        </div>
       </div>
     </section>
+    <footer class="screen-footer">Portal Revisa • Desenvolvido pelo Prof. Job Inácio • v.09.01.26</footer>
   </main>
 
   <main class="assessment" id="assessmentPage" hidden>
-    <section>
+    <section class="assessment-layout">
       <div class="assessment-head">
-        <div class="eyebrow" id="assessmentSubject">Ciências</div>
+        <div class="eyebrow" id="assessmentSubject">Portal Revisa • Ciências</div>
         <h1 id="assessmentGrade">6º ano</h1>
-        <p class="assessment-lead">Selecione a avaliação que você deseja preparar.</p>
+        <p class="assessment-lead">Escolha a avaliação e siga para um percurso de revisão completo, organizado para a sua turma.</p>
       </div>
       <div class="assessment-options" aria-label="Avaliações disponíveis">
         <button class="assessment-option" id="openSecondTrimester">
@@ -129,6 +134,7 @@
         </button>
       </div>
     </section>
+    <footer class="screen-footer">Portal Revisa • Desenvolvido pelo Prof. Job Inácio • v.09.01.26</footer>
   </main>
 
   <main class="page" id="mainContent" hidden>
@@ -164,7 +170,6 @@
       <div class="section-body">
         <p class="section-intro">Retome os conceitos centrais antes de seguir para os flashcards.</p>
         <div class="summary-grid" id="summaryGrid"></div>
-        <div class="summary-cta"><button class="button primary" data-scroll="flashcards">Praticar com flashcards</button></div>
       </div>
     </section>
 
@@ -190,7 +195,7 @@
         <div class="quiz-result" id="quizResult"><div class="score" id="score"></div><h3 id="resultTitle"></h3><p id="resultText"></p><button class="button primary" id="quizRetry">Refazer quiz</button></div>
       </div>
     </section>
-    <footer>Plataforma de Revisão Escolar • Desenvolvida pelo Prof. Job Inácio</footer>
+    <footer>Portal Revisa • Desenvolvido pelo Prof. Job Inácio • v.09.01.26</footer>
   </main>
 
   <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="Imagem ampliada"><button class="modal-close" id="modalClose" aria-label="Fechar imagem">×</button><img id="modalImage" alt=""></div>
@@ -215,23 +220,26 @@
 
     function showLanding(scroll=true){
       observers.forEach(observer=>observer.disconnect());observers=[];
+      document.body.classList.add('entry-mode');
       $('landingPage').hidden=false;$('assessmentPage').hidden=true;$('mainContent').hidden=true;$('topbar').classList.add('home-mode');$('topbar').classList.remove('assessment-mode');
-      $('brandSubtitle').textContent='Ciências e Biologia';document.title='Plataforma de Revisão Escolar';
+      $('brandSubtitle').textContent='Ciências e Biologia';document.title='Portal Revisa';
       document.querySelectorAll('.grade-tab').forEach(button=>{button.classList.remove('active');button.removeAttribute('aria-current')});
       if(scroll)window.scrollTo({top:0,behavior:'smooth'});
     }
 
     function showAssessmentMenu(id,scroll=true){
       observers.forEach(observer=>observer.disconnect());observers=[];const grade=activateGrade(id);
+      document.body.classList.add('entry-mode');
       $('landingPage').hidden=true;$('assessmentPage').hidden=false;$('mainContent').hidden=true;$('topbar').classList.remove('home-mode');$('topbar').classList.add('assessment-mode');
-      $('assessmentSubject').textContent=grade.subject;$('assessmentGrade').textContent=grade.label;$('assessmentDescription').textContent=grade.description;$('assessmentExam').textContent='Avaliação: '+grade.exam;$('assessmentSecond').textContent='Segunda chamada: '+grade.second;document.title=grade.label+' — Escolha a avaliação';
+      $('assessmentSubject').textContent='Portal Revisa • '+grade.subject;$('assessmentGrade').textContent=grade.label;$('assessmentDescription').textContent=grade.description;$('assessmentExam').textContent='Avaliação: '+grade.exam;$('assessmentSecond').textContent='Segunda chamada: '+grade.second;document.title=grade.label+' — Portal Revisa';
       if(scroll)window.scrollTo({top:0,behavior:'smooth'});
     }
 
     function renderGrade(id,scroll=true){
       const grade=activateGrade(id);
+      document.body.classList.remove('entry-mode');
       $('landingPage').hidden=true;$('assessmentPage').hidden=true;$('mainContent').hidden=false;$('topbar').classList.remove('home-mode','assessment-mode');
-      document.title=grade.subject+' • '+grade.label+' — Plataforma de Revisão';
+      document.title=grade.subject+' • '+grade.label+' — Portal Revisa';
       $('heroTitle').textContent=grade.subject+' • '+grade.label;$('heroDescription').textContent=grade.description;
       $('examDate').textContent='Prova: '+grade.exam;$('secondDate').textContent='Segunda chamada: '+grade.second;$('chapterCount').textContent=grade.chapters.length+' capítulos';
       $('reviewList').innerHTML=grade.chapters.map(chapter=>'<li>'+escapeHtml(chapter.title)+'</li>').join('');
